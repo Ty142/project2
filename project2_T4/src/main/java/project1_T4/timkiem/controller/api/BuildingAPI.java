@@ -22,9 +22,9 @@ public class BuildingAPI {
 	
 	@GetMapping(value="/api/buildinGs")
 	private Object getBuildings(@RequestParam(required = false) Map<String,Object> params,
-		                     	@RequestParam(name = "typeOfBuilding", required = false) List<String> typeBuilding){		
-		 if (typeBuilding != null && !typeBuilding.isEmpty()) {
-		        return BuildingServ.getBuildingByTypeCode(typeBuilding);
+		                     	@RequestParam(name = "typeOfBuilding", required = false) List<String> typeOfBuilding){		
+		 if (typeOfBuilding != null && !typeOfBuilding.isEmpty()) {
+		        return BuildingServ.getBuildingByTypeCode(typeOfBuilding);
 		    } else {
 		        return BuildingServ.getBuildings(params);
 		    }
