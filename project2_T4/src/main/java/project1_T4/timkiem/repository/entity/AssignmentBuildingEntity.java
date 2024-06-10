@@ -1,4 +1,4 @@
-package project1_T4.timkiem.assignmentbuildingrepository.entity;
+package project1_T4.timkiem.repository.entity;
 
 import java.sql.Timestamp;
 

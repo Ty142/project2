@@ -1,4 +1,4 @@
-package project1_T4.timkiem.districtrepository.impl;
+package project1_T4.timkiem.repository.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import project1_T4.timkiem.districtrepository.DistrictRepository;
-import project1_T4.timkiem.districtrepository.entity.DistrictEntity;
+import project1_T4.timkiem.repository.DistrictRepository;
+import project1_T4.timkiem.repository.entity.DistrictEntity;
+
+
 @Repository
 public class DistrictRepositoryImpl implements DistrictRepository{
 	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";

@@ -1,4 +1,4 @@
-package project1_T4.timkiem.rentarearepository.entity;
+package project1_T4.timkiem.repository.entity;
 
 import java.time.LocalDateTime;
 

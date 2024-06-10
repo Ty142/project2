@@ -1,4 +1,4 @@
-package project1_T4.timkiem.userrepository.entity;
+package project1_T4.timkiem.repository.entity;
 
 import java.security.Timestamp;
 

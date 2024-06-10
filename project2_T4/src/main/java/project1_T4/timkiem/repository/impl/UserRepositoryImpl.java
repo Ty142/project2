@@ -1,4 +1,4 @@
-package project1_T4.timkiem.userrepository.impl;
+package project1_T4.timkiem.repository.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import project1_T4.timkiem.userrepository.UserRepository;
-import project1_T4.timkiem.userrepository.entity.UserEntity;
+import project1_T4.timkiem.repository.UserRepository;
+import project1_T4.timkiem.repository.entity.UserEntity;
+
+
 
 
 
@@ -21,12 +23,12 @@ public class UserRepositoryImpl implements UserRepository {
 	static final String USER = "root";
 	static final String PASS = "duy khang";
 	@Override
-	public List<UserEntity> findUserIdByFullName(String fullname) {
+	public List<UserEntity> findUserIdByFullName(Integer id) {
 		List<UserEntity> users = new ArrayList<UserEntity>();
 		String sql = "SELECT a.* FROM user a ";
 		String where = " WHERE 1=1 ";  
-		if (fullname != null && fullname != "") {
-	        where += " AND a.fullname = " + fullname;
+		if (id != null) {
+	        where += " AND a.fullname = " + id;
 	    }
 	  sql += where;
 	  try (Connection conn = DriverManager.getConnection(DB_URL,USER,PASS )) {

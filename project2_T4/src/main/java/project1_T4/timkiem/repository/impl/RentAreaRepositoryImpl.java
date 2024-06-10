@@ -1,4 +1,4 @@
-package project1_T4.timkiem.rentarearepository.impl;
+package project1_T4.timkiem.repository.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import project1_T4.timkiem.rentarearepository.RentAreaRepository;
-import project1_T4.timkiem.rentarearepository.entity.RentAreaEntity;
+import project1_T4.timkiem.repository.RentAreaRepository;
+import project1_T4.timkiem.repository.entity.RentAreaEntity;
+
+
 
 
 

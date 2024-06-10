@@ -22,9 +22,9 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	static final String PASS = "duy khang";
 
 	@Override
-	public List<BuildingEntity> findByParams(Map<String, Object> params) {
+	public List<BuildingEntity> findByParams(Map<String, Object> params,List<String> typeOfBuilding) {
 		List<BuildingEntity> results = new ArrayList<BuildingEntity>();
-		String sql = "SELECT b.* FROM building b ";
+		String sql = "SELECT DISTINCT b.* FROM building b ";
 		String where = " WHERE 1=1 ";
 		String join = "";
 		
@@ -50,16 +50,17 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	            if (params.containsKey("floorarea") && params.get("floorarea") != null && params.get("floorarea") !="") {
 	                where += " AND b.floorarea LIKE '%" + params.get("floorarea") + "%'";
 	            }	
-	            if (params.containsKey("StaffFullName") && params.get("StaffFullName") != null && params.get("StaffFullName") !="") {
-	            	 where += " AND u.fullname LIKE '%" + params.get("StaffFullName") + "%'";
-	                join += " INNER JOIN assignmentbuilding sb ON b.id = sb.buildingid "
-	                        + "INNER JOIN user u ON sb.staffid = u.id";
+	            if (params.containsKey("staffId") && params.get("staffId") != null && params.get("staffId") != "") {
+	            	where += " AND u.id = " + params.get("staffId");
+	            	join += " INNER JOIN assignmentbuilding sb ON b.id = sb.buildingid "
+	            	        + "INNER JOIN user u ON sb.staffid = u.id";
 	            }	
 	            if (params.containsKey("areaOfBegin") && params.get("areaOfBegin") != null) {
-	            	where += " AND b.floorarea >= " + params.get("areaOfBegin");
+	            	where += " AND ra.value >= " + params.get("areaOfBegin");
 	            	if (params.containsKey("areaOfEnd") && params.get("areaOfEnd") != null) {
-	            		where += " AND b.floorarea <= " + params.get("areaOfEnd");
+	            		where += " AND ra.value <= " + params.get("areaOfEnd");
 	            	}
+	            	join += " INNER JOIN rentarea ra On  ra.buildingid = b.id";
 	            }
 	            if (params.containsKey("rentFeeOfMinimum") && params.get("rentFeeOfMinimum") != null) {
 	            	where += " AND b.rentprice >= " + params.get("rentFeeOfMinimum");
@@ -67,6 +68,13 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	            		where += " AND b.rentprice <= " + params.get("rentFeeOfMaximum");
 	            	}
 	            }
+	            if (typeOfBuilding != null && !typeOfBuilding.isEmpty()) {
+			        join += " INNER JOIN buildingrenttype sb ON b.id = sb.buildingid "
+			              + "INNER JOIN renttype t ON sb.renttypeid = t.id";
+			        String typeCondition = String.join("','", typeOfBuilding);
+			        where += " AND t.name IN ('" + typeCondition + "')";
+			        
+			    }
 	            
 		}
 	           
@@ -109,52 +117,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	}
 	
 
-	@Override
-	public List<BuildingEntity> findByListType(List<String> typeBuilding) {
-		List<BuildingEntity> results = new ArrayList<BuildingEntity>();
-		String sql = "SELECT b.* FROM building b ";
-		String where = " WHERE 1=1 ";
-		String join = "";
-		if(typeBuilding != null && !typeBuilding.isEmpty()) {
-	        for (String type : typeBuilding) {
-	            if (type != null && !type.isEmpty()) {
-	                where += " AND EXISTS (SELECT 1 FROM buildingrenttype sb INNER JOIN renttype t ON t.id = sb.renttypeid WHERE b.id = sb.buildingid AND t.name LIKE '%" + type + "%')";
-	            }
-	        }
-	    }
 
-
-		sql += where;
-		try (Connection conn = DriverManager.getConnection(DB_URL,USER,PASS )) {
-			 Statement stmt = conn.createStatement();
-			 ResultSet rs = stmt.executeQuery(sql);
-			
-			 while(rs.next()) {
-				    BuildingEntity building = new BuildingEntity();
-				    building.setId(rs.getInt("id"));
-				    building.setName(rs.getString("name"));
-	                building.setStreet(rs.getString("street"));
-	                building.setWard(rs.getString("ward"));
-	                building.setDistrictid(rs.getLong("districtid"));
-	                building.setStructure(rs.getString("structure"));
-	                building.setNumberofbasement(rs.getInt("numberofbasement"));
-	                building.setFloorarea(rs.getInt("floorarea"));
-	                building.setDirection(rs.getString("direction"));
-	                building.setLevel(rs.getString("level"));
-	                building.setRentprice(rs.getInt("rentprice"));
-	                building.setManagername(rs.getString("managername"));
-	                building.setManagerphonenumber(rs.getString("managerphonenumber"));
-	                results.add(building);
-				 
-			 }
-		}   catch (SQLException e) {
-           e.printStackTrace();
-           System.out.println("Failed to connect to the database.");
-       }
-
-		return results;
-	}
-	
 
 
 }

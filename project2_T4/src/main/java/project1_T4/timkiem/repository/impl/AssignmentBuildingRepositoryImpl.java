@@ -1,9 +1,11 @@
-package project1_T4.timkiem.assignmentbuildingrepository.impl;
+package project1_T4.timkiem.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import project1_T4.timkiem.assignmentbuildingrepository.AssignmentBuildingRepository;
-import project1_T4.timkiem.assignmentbuildingrepository.entity.AssignmentBuildingEntity;
+import project1_T4.timkiem.repository.AssignmentBuildingRepository;
+import project1_T4.timkiem.repository.entity.AssignmentBuildingEntity;
+
+
 @Repository
 public class AssignmentBuildingRepositoryImpl implements AssignmentBuildingRepository{
 	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";

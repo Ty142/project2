@@ -1,4 +1,4 @@
-package project1_T4.timkiem.districtrepository.entity;
+package project1_T4.timkiem.repository.entity;
 
 public class DistrictEntity {
 	private Long id;
