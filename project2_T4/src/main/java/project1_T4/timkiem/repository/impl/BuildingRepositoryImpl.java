@@ -67,13 +67,12 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	            	if (params.containsKey("rentFeeOfMaximum") && params.get("rentFeeOfMaximum") != null) {
 	            		where += " AND b.rentprice <= " + params.get("rentFeeOfMaximum");
 	            	}
-	            }
+	            }	            
 	            if (typeOfBuilding != null && !typeOfBuilding.isEmpty()) {
 			        join += " INNER JOIN buildingrenttype sb ON b.id = sb.buildingid "
 			              + "INNER JOIN renttype t ON sb.renttypeid = t.id";
 			        String typeCondition = String.join("','", typeOfBuilding);
 			        where += " AND t.name IN ('" + typeCondition + "')";
-			        
 			    }
 	            
 		}
@@ -81,7 +80,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		if (!join.isEmpty()) {
 		    sql += join;
 		}
-
+ 
 		sql += where;
 		
 		

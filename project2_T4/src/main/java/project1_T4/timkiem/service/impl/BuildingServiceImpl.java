@@ -33,11 +33,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Autowired
     private DistrictRepository districtRepository;
     
-    @Autowired
-    private AssignmentBuildingRepository assignMent;
-    
-    @Autowired
-    private UserRepository userRepository;
+
     
     @Override
     public List<BuildingResponseDTO> getBuildings(Map<String, Object> params, List<String> typeOfBuilding) {
