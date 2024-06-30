@@ -27,7 +27,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 	@Override
 	public List<RentAreaEntity> findByParamsRentArea(Integer id) {
 		List<RentAreaEntity> results = new ArrayList<>();
-		String sql = "SELECT a.* FROM rentarea a WHERE a.id = " + id;
+		String sql = "SELECT a.* FROM rentarea a WHERE a.buildingid = " + id;
 		try (Connection conn = ConectionUtils.getConnection()) {
 			 Statement stmt = conn.createStatement();
 			 ResultSet rs = stmt.executeQuery(sql);
@@ -36,6 +36,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 				    RentAreaEntity rentareaentities = new RentAreaEntity();
 				    rentareaentities.setValue(rs.getInt("value"));
 				    rentareaentities.setId(rs.getInt("id"));
+				    rentareaentities.setBuildingId(rs.getInt("buildingid"));
 				    results.add(rentareaentities);
 			    }		 
 			 } catch (SQLException e) {

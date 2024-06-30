@@ -33,10 +33,10 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		if (staffId != null) {
 			join.append(" INNER JOIN assignmentbuilding sb ON b.id = sb.buildingid ");
 		}
-		Long areaBegin = builder.getRentOfBegin();
-		Long areaEnd = builder.getRentOfEnd();
+		Long areaBegin = builder.getAreaOfBegin();
+		Long areaEnd = builder.getAreaOfEnd();
 		if (areaBegin != null || areaEnd != null) {
-			join.append(" INNER JOIN rentarea ra On  ra.buildingid = b.id");
+			join.append(" INNER JOIN rentarea ra On ra.buildingid = b.id");
 		}
 		
 		if (builder.getTypeOfCode() != null && !builder.getTypeOfCode().isEmpty()) {
@@ -52,7 +52,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	
 	public void querySQLNomal(BuildingSearchBuilder builder,StringBuilder where) {
 			try {
-				Field [] fields = BuildingSearchBuilder.class.getFields();
+				Field [] fields = BuildingSearchBuilder.class.getDeclaredFields();
 				for (Field item : fields) {
 					item.setAccessible(true);
 					String fieldName = item.getName();
@@ -74,25 +74,23 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	}
 	
 	public void querySQLSpecial(BuildingSearchBuilder builder,StringBuilder where) {
-		Long areaBegin = builder.getRentOfBegin();
-		Long areaEnd = builder.getRentOfEnd();
+		Long areaBegin = builder.getAreaOfBegin();
+		Long areaEnd = builder.getAreaOfEnd();
 		if (areaBegin != null || areaEnd!= null) {
-			where.append(" AND EXISTS (SELECT * FROM rentarea ra on ra.buildingid = b.id "); 
 			if (areaBegin != null) {
 				where.append(" AND ra.value >= " + areaBegin);
 			}
 			if (areaEnd != null) {
 				where.append(" AND ra.value <= " + areaEnd);
 			}
-			where.append(")");
 		}
 		Long staffId = builder.getStaffId();
 		if (staffId != null) {
 			where.append(" AND sb.staffId = " + staffId);
 		}
 		
-		Long rentFeeOfMinimum = builder.getRentFeeMinimum();
-		Long rentFeeOfMaximum = builder.getRentFeeMinimum();
+		Long rentFeeOfMinimum = builder.getRentFeeOfMinimum();
+		Long rentFeeOfMaximum = builder.getRentFeeOfMaximum();
 		if (rentFeeOfMinimum != null) {
 			where.append(" AND b.rentprice >= " + rentFeeOfMinimum);
 		}
@@ -100,15 +98,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 			where.append(" AND b.rentprice <= " + rentFeeOfMaximum);
 		}
 		
-//		if (typeOfCode != null && !typeOfCode.equals("")) {
-//			List<String> name = new ArrayList<String>();
-//			for ( String it : typeOfCode) {
-//				name.add("'" + it + "'");
-//			}
-//			where.append(" AND t.name IN (" + String.join(",",name) + ") " );
-//		}
-		
-		//java 8
+
 		List<String> typeOfCode = builder.getTypeOfCode();
 		if (typeOfCode != null && !typeOfCode.equals("")) {
 			where.append(" AND (");
