@@ -12,10 +12,10 @@ public class BuildingResponseDTO {
     private String rentarea;
     private int rentprice;
     private int servicefee;
-	public String getNameb() {
+	public String getName() {
 		return name;
 	}
-	public void setNameb(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public String getAddress() {

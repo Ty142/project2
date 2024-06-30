@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import project1_T4.timkiem.repository.RentAreaRepository;
 import project1_T4.timkiem.repository.entity.RentAreaEntity;
+import project1_T4.timkiem.utils.ConectionUtils;
 
 
 
@@ -26,25 +27,15 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 	@Override
 	public List<RentAreaEntity> findByParamsRentArea(Integer id) {
 		List<RentAreaEntity> results = new ArrayList<>();
-		String sql = "SELECT a.* FROM rentarea a ";
-		String where = " WHERE 1=1 ";
-	    if (id != null && id != 0) {
-		        where += " AND a.buildingid = " + id;
-		    }
-		sql += where;
-		try (Connection conn = DriverManager.getConnection(DB_URL,USER,PASS )) {
+		String sql = "SELECT a.* FROM rentarea a WHERE a.id = " + id;
+		try (Connection conn = ConectionUtils.getConnection()) {
 			 Statement stmt = conn.createStatement();
 			 ResultSet rs = stmt.executeQuery(sql);
 			 
 			 while(rs.next()) {
 				    RentAreaEntity rentareaentities = new RentAreaEntity();
-				    rentareaentities.setBuildingId(rs.getInt("buildingid"));
-				    rentareaentities.setCreatedBy(where);
-				    rentareaentities.setCreatedDate(null);
-				    rentareaentities.setId(null);
-				    rentareaentities.setModifiedBy(where);
-				    rentareaentities.setModifiedDate(null);
 				    rentareaentities.setValue(rs.getInt("value"));
+				    rentareaentities.setId(rs.getInt("id"));
 				    results.add(rentareaentities);
 			    }		 
 			 } catch (SQLException e) {

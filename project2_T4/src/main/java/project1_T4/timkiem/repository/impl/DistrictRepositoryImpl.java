@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import project1_T4.timkiem.repository.DistrictRepository;
 import project1_T4.timkiem.repository.entity.DistrictEntity;
+import project1_T4.timkiem.utils.ConectionUtils;
 
 
 @Repository
@@ -22,13 +23,8 @@ public class DistrictRepositoryImpl implements DistrictRepository{
 	@Override
 	public DistrictEntity findDistrictParam(Long id) {
 		DistrictEntity districts = new DistrictEntity();
-		String sql = "SELECT a.* FROM district a ";
-		String where = " WHERE 1=1 ";
-	    if (id != null && id != 0) {
-		        where += " AND a.id = " + id;
-		    }
-	    sql += where;
-	    try (Connection conn = DriverManager.getConnection(DB_URL,USER,PASS )) {
+		String sql = "SELECT d.* FROM district d WHERE d.id = " + id;
+	    try (Connection conn = ConectionUtils.getConnection()) {
 			 Statement stmt = conn.createStatement();
 			 ResultSet rs = stmt.executeQuery(sql);
 			 
