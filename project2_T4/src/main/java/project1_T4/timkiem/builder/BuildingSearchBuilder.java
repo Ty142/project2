@@ -53,7 +53,7 @@ public class BuildingSearchBuilder {
 
 
 
-	public String getWard() {
+	public String getWards() {
 		return ward;
 	}
 
