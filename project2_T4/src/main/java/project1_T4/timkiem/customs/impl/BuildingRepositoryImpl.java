@@ -1,4 +1,4 @@
-package project1_T4.timkiem.repository.impl;
+package project1_T4.timkiem.customs.impl;
 
 import java.lang.reflect.Field;
 import java.security.Timestamp;
@@ -22,12 +22,13 @@ import org.springframework.stereotype.Repository;
 
 import project1_T4.timkiem.utils.ConectionUtils;
 import project1_T4.timkiem.builder.BuildingSearchBuilder;
+import project1_T4.timkiem.customs.BuildingRepositoryCustom;
 import project1_T4.timkiem.repository.BuildingRepository;
 import project1_T4.timkiem.repository.entity.BuildingEntity;
 
 @Repository
 @Primary
-public class BuildingRepositoryImpl implements BuildingRepository{
+public class BuildingRepositoryImpl implements BuildingRepositoryCustom{
 	@PersistenceContext
 	private EntityManager entityManager;
 

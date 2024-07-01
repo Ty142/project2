@@ -132,9 +132,11 @@ public class BuildingEntity {
 		return rens;
 	}
 
+
 	public void setRens(List<RentAreaEntity> rens) {
 		this.rens = rens;
 	}
+
 
 
 	// Getters and Setters for all fields

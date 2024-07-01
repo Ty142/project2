@@ -21,22 +21,14 @@ import project1_T4.timkiem.repository.entity.RentAreaEntity;
 public class BuildingConverter {
 
 	
-    @Autowired
-    private RentAreaRepository rentAreaRepository;
-    
-    @Autowired
-    private DistrictRepository districtRepository;
     
     @Autowired
     private ModelMapper modelMapper;
     
 	public BuildingResponseDTO BuildingResponseDTO(BuildingEntity it) {
 		BuildingResponseDTO buildingResponseDTO = modelMapper.map(it, BuildingResponseDTO.class);
-        Long districtid = it.getDistrict().getId();
-       DistrictEntity districtdname = districtRepository.findDistrictParam(districtid);
-        buildingResponseDTO.setAddress(it.getStreet() + "," + it.getWard() + "," + districtdname.getName());
-        buildingResponseDTO.setRentarea(rentAreaRepository.findByParamsRentArea(it.getId()).stream().
-        		map(i -> i.getValue().toString()).collect(Collectors.joining(","))); 
+        buildingResponseDTO.setAddress(it.getStreet() + "," + it.getWard() + "," + it.getDistrict().getName());
+        buildingResponseDTO.setRentarea(it.getRens().stream().map(i -> i.getValue().toString()).collect(Collectors.joining(",")));
 		return buildingResponseDTO;
 		
 	}

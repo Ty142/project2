@@ -38,12 +38,6 @@ public class RentAreaEntity {
     @Column(name = "modifiedby")
     private String modifiedBy;
     
-    @Column(name = "areaofbegin")
-    private Long areaOfBegin;
-    
-    @Column(name = "areaofend")
-    private Long areaOfEnd;
-    
     @ManyToOne
     @JoinColumn(name = "buildingid")
     private BuildingEntity building;
@@ -84,18 +78,6 @@ public class RentAreaEntity {
 	}
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-	public Long getAreaOfBegin() {
-		return areaOfBegin;
-	}
-	public void setAreaOfBegin(Long areaOfBegin) {
-		this.areaOfBegin = areaOfBegin;
-	}
-	public Long getAreaOfEnd() {
-		return areaOfEnd;
-	}
-	public void setAreaOfEnd(Long areaOfEnd) {
-		this.areaOfEnd = areaOfEnd;
 	}
 
 	

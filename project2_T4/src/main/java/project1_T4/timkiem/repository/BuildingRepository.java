@@ -3,10 +3,12 @@ package project1_T4.timkiem.repository;
 import java.util.List;
 import java.util.Map;
 
-import project1_T4.timkiem.builder.BuildingSearchBuilder;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import project1_T4.timkiem.customs.BuildingRepositoryCustom;
 import project1_T4.timkiem.repository.entity.BuildingEntity;
 
-public interface BuildingRepository {
-   List<BuildingEntity> findByParams(BuildingSearchBuilder builder);
+public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>, BuildingRepositoryCustom {
+   
 
 }
