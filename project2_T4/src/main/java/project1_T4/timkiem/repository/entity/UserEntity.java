@@ -1,21 +1,75 @@
 package project1_T4.timkiem.repository.entity;
 
 import java.security.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class UserEntity {
-    private long id;
-    private String username;
-    private String password;
-    private String fullName;
-    private String phone;
-    private String email;
-    private int status;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private String createdBy;
-    private String modifiedBy;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public long getId() {
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "fullname")
+    private String fullName;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "status")
+    private int status;
+
+    @Column(name = "createddate")
+    private Timestamp createdDate;
+
+    @Column(name = "modifieddate")
+    private Timestamp modifiedDate;
+
+    @Column(name = "createdby")
+    private String createdBy;
+
+    @Column(name = "modifiedby")
+    private String modifiedBy;
+    
+    @ManyToMany 
+    @JoinTable(name = "user",
+    joinColumns = @JoinColumn(name = "userid"),
+    inverseJoinColumns = @JoinColumn(name = "roleid"))
+    private List<RoleEntity> roles= new ArrayList<RoleEntity>();
+    
+    
+
+	public List<RoleEntity> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<RoleEntity> roles) {
+		this.roles = roles;
+	}
+
+	public long getId() {
         return id;
     }
 

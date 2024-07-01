@@ -13,20 +13,23 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import project1_T4.timkiem.utils.ConectionUtils;
-import project1_T4.timkiem.utils.NumberUtils;
 import project1_T4.timkiem.builder.BuildingSearchBuilder;
 import project1_T4.timkiem.repository.BuildingRepository;
 import project1_T4.timkiem.repository.entity.BuildingEntity;
-import project1_T4.timkiem.utils.StringUtils;
 
 @Repository
+@Primary
 public class BuildingRepositoryImpl implements BuildingRepository{
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "duy khang";
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public void querySQLJoin(BuildingSearchBuilder builder,StringBuilder join) {
 		Long staffId = builder.getStaffId();
@@ -114,42 +117,14 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	}
 	@Override
 	public List<BuildingEntity> findByParams(BuildingSearchBuilder builder) {
-		List<BuildingEntity> results = new ArrayList<BuildingEntity>();
 		StringBuilder sql = new StringBuilder("SELECT DISTINCT b.* FROM building b ");
 		StringBuilder where = new StringBuilder( " WHERE 1=1 ");
 		querySQLNomal( builder, where);
 		querySQLJoin(builder, sql);
 		querySQLSpecial(builder, where);
 		sql.append(where);
-		try (Connection conn = ConectionUtils.getConnection()) {
-			 Statement stmt = conn.createStatement();
-			 ResultSet rs = stmt.executeQuery(sql.toString());
-			
-			 while(rs.next()) {
-				    BuildingEntity building = new BuildingEntity();
-				    building.setId(rs.getInt("id"));
-				    building.setName(rs.getString("name"));
-	                building.setStreet(rs.getString("street"));
-	                building.setWard(rs.getString("ward"));
-	                building.setDistrictid(rs.getLong("districtid"));
-	                building.setStructure(rs.getString("structure"));
-	                building.setNumberofbasement(rs.getInt("numberofbasement"));
-	                building.setFloorarea(rs.getInt("floorarea"));
-	                building.setDirection(rs.getString("direction"));
-	                building.setLevel(rs.getString("level"));
-	                building.setRentprice(rs.getInt("rentprice"));
-	                building.setManagername(rs.getString("managername"));
-	                building.setManagerphonenumber(rs.getString("managerphonenumber"));
-	                results.add(building);
-				 
-			 }
-		}   catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Failed to connect to the database.");
-        
-		}
-
-		return results;
+		Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class); 
+		return query.getResultList();
 	}
 	
 

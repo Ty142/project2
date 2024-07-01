@@ -36,7 +36,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 				    RentAreaEntity rentareaentities = new RentAreaEntity();
 				    rentareaentities.setValue(rs.getInt("value"));
 				    rentareaentities.setId(rs.getInt("id"));
-				    rentareaentities.setBuildingId(rs.getInt("buildingid"));
+//				    rentareaentities.setBuildingId(rs.getInt("buildingid"));
 				    results.add(rentareaentities);
 			    }		 
 			 } catch (SQLException e) {

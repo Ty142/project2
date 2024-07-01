@@ -32,8 +32,8 @@ public class BuildingConverter {
     
 	public BuildingResponseDTO BuildingResponseDTO(BuildingEntity it) {
 		BuildingResponseDTO buildingResponseDTO = modelMapper.map(it, BuildingResponseDTO.class);
-        Long districtid = it.getDistrictid();
-        DistrictEntity districtdname = districtRepository.findDistrictParam(districtid);
+        Long districtid = it.getDistrict().getId();
+       DistrictEntity districtdname = districtRepository.findDistrictParam(districtid);
         buildingResponseDTO.setAddress(it.getStreet() + "," + it.getWard() + "," + districtdname.getName());
         buildingResponseDTO.setRentarea(rentAreaRepository.findByParamsRentArea(it.getId()).stream().
         		map(i -> i.getValue().toString()).collect(Collectors.joining(","))); 

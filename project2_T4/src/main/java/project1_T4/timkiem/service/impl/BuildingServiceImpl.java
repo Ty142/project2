@@ -12,7 +12,6 @@ import project1_T4.timkiem.builder.BuildingSearchBuilder;
 import project1_T4.timkiem.controller.dto.BuildingResponseDTO;
 import project1_T4.timkiem.converter.BuildingConverter;
 import project1_T4.timkiem.converter.BuildingSearchBuilderConverter;
-import project1_T4.timkiem.repository.AssignmentBuildingRepository;
 import project1_T4.timkiem.repository.BuildingRepository;
 import project1_T4.timkiem.repository.DistrictRepository;
 import project1_T4.timkiem.repository.RentAreaRepository;
